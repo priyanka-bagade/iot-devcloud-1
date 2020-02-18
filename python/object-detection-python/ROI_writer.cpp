@@ -59,8 +59,8 @@ int main(int argc, char ** argv)
 	//argv[4]:(float)resl-> scale ratio of the output frame (0.75, 0.5, 1)
 	string job_id = getenv("PBS_JOBID");
 	string input_stream = argv[1];
-	string input_data = string(argv[2])+"/output_"+job_id+".txt";
-	string progress_data = string(argv[2])+"/v_progress_"+job_id+".txt";
+        string input_data = string(argv[2])+"/output_"+job_id+".txt";
+	string progress_data = string(argv[2])+"/post_progress_"+job_id+".txt";
 	string output_result = string(argv[2])+"/output_"+job_id+".mp4";
 	int skip_frame = stoi(argv[3]);
 	float resl = stof(argv[4]);
@@ -90,7 +90,8 @@ int main(int argc, char ** argv)
 		width = int(cap.get(CAP_PROP_FRAME_WIDTH));	
 		height = int(cap.get(CAP_PROP_FRAME_HEIGHT));	
 		length = int(cap.get(CAP_PROP_FRAME_COUNT));
-		outVideo.open(output_result, 0x21, 50.0/skip_frame, Size(width*resl, height*resl), true);
+		//outVideo.open(output_result, 0x21, 50.0/skip_frame, Size(width*resl, height*resl), true);
+		outVideo.open(output_result, outVideo.fourcc('a','v','c','1'), 50.0/skip_frame, Size(width*resl, height*resl), true);
 
 	}
 	//Start while loop to process input stream and write the output frame to output_results 
