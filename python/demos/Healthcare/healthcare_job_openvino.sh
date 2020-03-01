@@ -7,13 +7,14 @@ RESULTS=$1
 DEVICE=$2
 
 if [ "$DEVICE" = "HETERO:FPGA,CPU" ]; then
-    # Environment variables and compilation for edge compute nodes with FPGAs
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/altera/aocl-pro-rte/aclrte-linux64/
-    source /opt/intel/init_openvino.sh
-    aocl program acl0 /opt/intel/openvino/bitstreams/a10_vision_design_sg1_bitstreams/2019R3_PV_PL1_FP11_ResNet_VGG.aocx
+    # Environment variables and compilation for edge compute nodes with FPGAs - Updated for OpenVINO 2020.1
+    source /opt/altera/aocl-pro-rte/aclrte-linux64/init_opencl.sh
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/intel/openvino/bitstreams/a10_vision_design_sg1_bitstreams/BSP/a10_1150_sg1/linux64/lib
+    aocl program acl0 /opt/intel/openvino/bitstreams/a10_vision_design_sg1_bitstreams/2019R4_PL1_FP11_ResNet_VGG.aocx
+    export CL_CONTEXT_COMPILER_MODE_INTELFPGA=3
 fi
 
-if [ "$DEVICE" = "MYRIAD" ] || [ "$DEVICE" = "HDDL" ]; then
+if [ "$DEVICE" = "MYRIAD" ] || [ "$DEVICE" = "HDDL" ] || [ "$DEVICE" = "HETERO:FPGA,CPU" ]; then
     FP_MODEL="FP16"
 else
     FP_MODEL="FP32"
@@ -24,5 +25,4 @@ fi
 SAMPLEPATH=$PBS_O_WORKDIR
 python3 healthcare_openvino.py     -d $DEVICE \
                                    -IR output/IR_models/${FP_MODEL}/saved_model \
-                                   -l /opt/intel/openvino/inference_engine/lib/intel64/libcpu_extension_avx2.so \
                                    -r $RESULTS
