@@ -62,9 +62,9 @@ class Network:
         #self.plugin = IEPlugin(device=device)
         ie = IECore()
         #if cpu_extension and 'CPU' in device:
-        if cpu_extension and 'CPU' in device:   
+        #if cpu_extension and 'CPU' in device:   
             #self.plugin.add_cpu_extension(cpu_extension)
-            ie.add_extension(cpu_extension, "CPU")
+            #ie.add_extension(cpu_extension, "CPU")
 
 
         # Read IR
