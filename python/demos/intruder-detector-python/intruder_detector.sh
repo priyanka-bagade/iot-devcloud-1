@@ -11,6 +11,7 @@ cd $PBS_O_WORKDIR
 # Make sure that the output directory exists.
 mkdir -p $OUTPUT_FILE
 
+# Check for special setup steps depending upon device to be used
 if [ "$DEVICE" = "HETERO:FPGA,CPU" ]; then
     # Environment variables and compilation for edge compute nodes with FPGAs
     source /opt/altera/aocl-pro-rte/aclrte-linux64/init_opencl.sh
