@@ -60,7 +60,7 @@ CAM_WINDOW_NAME_TEMPLATE = 'inference_output_Video_{}'
 PROB_THRESHOLD = 0.145
 FRAME_THRESHOLD = 5
 WINDOW_COLUMNS = 3
-#LOOP_VIDEO = False
+LOOP_VIDEO = False
 UI_OUTPUT = False
 
 ##########################################################
@@ -76,7 +76,6 @@ log_lock = threading.Lock()
 frames = 0
 frameNames = []
 numVids = 20000
-acceptedDevices= ['CPU', 'GPU', 'MYRIAD']
 
 ##########################################################
 # CLASSES
@@ -194,10 +193,6 @@ def check_args(defaultTarget=None):
         print ("You need to specify the path to the labels file")
         print ("Use -l LABELS or --labels LABELS")
         sys.exit(12)
-    global TARGET_DEVICE
-    if TARGET_DEVICE not in acceptedDevices:
-        print ("Unsupporterd device " + TARGET_DEVICE + ". Defaulting to CPU")
-        TARGET_DEVICE = 'CPU'
     with open(config_file, 'r') as f:
         if not f.read():
             print("Please use at least 1 video")
@@ -320,11 +315,6 @@ def main():
     args_parser()
     check_args()
     parse_conf_file()
-    
-    
-    # if TARGET_DEVICE not in acceptedDevices:
-    #     print ("Unsupporterd device " + TARGET_DEVICE + ". Defaulting to CPU")
-    #     TARGET_DEVICE = 'CPU'
     
     print("Initializing plugin for {} device...".format(TARGET_DEVICE))
     #plugin = IEPlugin(device=TARGET_DEVICE)
