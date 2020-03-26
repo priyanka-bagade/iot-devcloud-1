@@ -86,7 +86,7 @@ def main():
     assert len(net.outputs) == 1, "Sample supports only single output topologies"
 
     job_id = str(os.environ['PBS_JOBID'])
-    infer_file = os.path.join(args.output_dir, 'i_progress.txt')
+    infer_file = os.path.join(args.output_dir, 'i_progress_'+str(job_id)+'.txt')
     log.info("Preparing input blobs")
     input_blob = next(iter(net.inputs))
     out_blob = next(iter(net.outputs))
