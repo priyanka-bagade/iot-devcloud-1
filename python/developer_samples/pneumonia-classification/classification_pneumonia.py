@@ -31,7 +31,7 @@ def float16_conversion_array(n_array):
 def class_activation_map_openvino(res, convb, fc, net, fp16):
     res_bn = res[convb]
     conv_outputs=res_bn[0,:,:,:]
-    weights_fc=net.layers.get(fc).weights["weights"]
+    weights_fc=net.layers.get(fc).blobs["weights"]
     cam = np.zeros(dtype=np.float32, shape=conv_outputs.shape[1:])
     
     for i, w in enumerate(weights_fc):
@@ -92,7 +92,7 @@ def main():
     print(bn)
     # add the last convolutional layer as output 
     net.add_outputs(bn)
-    fc="predictions_1/MatMul"
+    fc="predictions_1/BiasAdd/Add"
 
     # name of the inputs and outputs
     input_blob = next(iter(net.inputs))
