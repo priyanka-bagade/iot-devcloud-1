@@ -6,12 +6,7 @@ import numpy as np
 import io
 from argparse import ArgumentParser
 
-# if import qarpo fails, try to reference needed module directly
-try:
-    from qarpo.demoutils import progressUpdate
-except:
-    sys.path.append("../../../demoTools")
-    from demoutils import progressUpdate
+from qarpo.demoutils import progressUpdate
 
 class ResultData:
     frame_id=""
