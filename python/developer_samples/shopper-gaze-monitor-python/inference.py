@@ -25,7 +25,7 @@
 import os
 import sys
 import logging as log
-from openvino.inference_engine import IENetwork, IECore #, IEPlugin
+from openvino.inference_engine import IENetwork, IECore
 
 class Network:
     """
@@ -34,14 +34,13 @@ class Network:
     """
     def __init__(self):
         self.net = None
-        #self.plugin = None
         self.ie = None
         self.input_blob = None
         self.out_blob = None
         self.net_plugin = None
         self.infer_request_handle = None
 
-    def load_model(self, model, device, input_size, output_size, num_requests, cpu_extension=None, plugin=None):
+    def load_model(self, model, device, input_size, output_size, num_requests, cpu_extension=None, ie=None):
         """
          Loads a network and an image to the Inference Engine plugin.
         :param model: .xml file of pre trained model
