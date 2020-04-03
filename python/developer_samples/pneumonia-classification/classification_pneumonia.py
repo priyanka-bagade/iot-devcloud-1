@@ -31,9 +31,11 @@ def float16_conversion_array(n_array):
 def class_activation_map_openvino(res, convb, fc, net, fp16):
     res_bn = res[convb]
     conv_outputs=res_bn[0,:,:,:]
+    # retrieve layer weights
     weights_fc=net.layers.get(fc).blobs["weights"]
+    # initialize CAM array
     cam = np.zeros(dtype=np.float32, shape=conv_outputs.shape[1:])
-    
+    # perform weighted sum
     for i, w in enumerate(weights_fc):
         conv_outputs1=conv_outputs[i, :, :]
         if fp16:
@@ -92,6 +94,12 @@ def main():
     print(bn)
     # add the last convolutional layer as output 
     net.add_outputs(bn)
+    """
+    Note: Layer name should be "MatMul", however it appears as "BiasAdd/Add" in
+          the IR from Model Optimizer in OpenVINO 2020.1.  
+          Below contains a workaround until corrected in the next release.
+    """
+    #fc="predictions_1/MatMul"
     fc="predictions_1/BiasAdd/Add"
 
     # name of the inputs and outputs
@@ -103,13 +111,14 @@ def main():
     exec_net = plugin.load(network=net)
 
     n,c,h,w=net.inputs[input_blob].shape
-    files=glob.glob(os.getcwd()+args.input[0])
+    # Use strip in case of " or ' present which might be used to avoid shell globing in scripts
+    files=glob.glob(args.input[0].strip("\"'")) 
     
     
     if not os.path.isdir(args.output_dir):
         os.makedirs(args.output_dir, exist_ok=True)
-    f=open(os.path.join(args.output_dir, 'result'+job_id+'.txt'), 'w')
-    f1=open(os.path.join(args.output_dir, 'stats'+job_id+'.txt'), 'w') 
+    f=open(os.path.join(args.output_dir, 'result.txt'), 'w')
+    f1=open(os.path.join(args.output_dir, 'stats.txt'), 'w') 
     progress_file_path = os.path.join(args.output_dir, "progress"+job_id+".txt")
     print(progress_file_path)
     time_images=[]
@@ -157,12 +166,12 @@ def main():
         img1 = heatmap [:,:,:3] * 0.3 + image
         ax[1].imshow(np.uint16(img1))
         plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
-        plt.savefig(os.path.join(args.output_dir, 'result'+job_id+'_'+str(index_f)+'.png'), bbox_inches='tight', pad_inches=0,dpi=300)
+        plt.savefig(os.path.join(args.output_dir, 'result_'+str(index_f)+'.png'), bbox_inches='tight', pad_inches=0,dpi=300)
        
         avg_time = round((infer_time/args.number_iter), 1)
         
                     #f.write(res + "\n Inference performed in " + str(np.average(np.asarray(infer_time))) + "ms") 
-        f.write("Pneumonia probability: "+ str(probs) + ", Inference performed in " + str(avg_time) + "ms \n") 
+        f.write("Pneumonia probability: "+ str(probs) + ", Inference performed in " + str(avg_time) + "ms, Input file: "+file+" \n") 
         time_images.append(avg_time)
         simpleProgressUpdate(progress_file_path,index_f* avg_time , (len(files)-1)* avg_time) 
     f1.write(str(np.average(np.asarray(time_images)))+'\n')
