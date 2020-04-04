@@ -351,7 +351,7 @@ def main():
         frames_sum += vc.length
     statsWidth = w if w > 345 else 345
     statsHeight = h if h > (len(videoCaps) * 20 + 15) else (len(videoCaps) * 20 + 15)
-    statsVideo = cv2.VideoWriter(os.path.join(output_dir,'Statistics.mp4'), cv2.VideoWriter_fourcc(*"AVC1"), minFPS, (statsWidth, statsHeight), True)    
+    statsVideo = cv2.VideoWriter(os.path.join(output_dir,'Statistics.mp4'), cv2.VideoWriter_fourcc(*"avc1"), minFPS, (statsWidth, statsHeight), True)    
     if not statsVideo.isOpened():
         print ("Couldn't open stats video for writing")
         sys.exit(4)

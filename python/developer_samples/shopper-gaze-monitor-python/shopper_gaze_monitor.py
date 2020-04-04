@@ -125,7 +125,7 @@ def main():
     initial_h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     video_len = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     fps = int(cap.get(cv2.CAP_PROP_FPS))
-    shopper = cv2.VideoWriter(os.path.join(args.output_dir, "shopper.mp4"), cv2.VideoWriter_fourcc(*"AVC1"), fps, (initial_w, initial_h), True)
+    shopper = cv2.VideoWriter(os.path.join(args.output_dir, "shopper.mp4"), cv2.VideoWriter_fourcc(*"avc1"), fps, (initial_w, initial_h), True)
     frame_count = 0
     job_id = os.environ['PBS_JOBID']
     progress_file_path = os.path.join(args.output_dir,'i_progress_'+str(job_id)+'.txt')

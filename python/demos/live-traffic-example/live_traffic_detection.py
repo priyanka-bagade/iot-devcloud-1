@@ -91,7 +91,7 @@ def placeBoxes(res, labels_map, frame, is_async_mode):
 def postProcess(result_list, width, height, labels_map, out_path, is_async_mode, ren_progress_file_path=None):
   post_process_t = time.time()
   # 0x00000021,
-  vw = cv2.VideoWriter(out_path, cv2.VideoWriter_fourcc(*"AVC1"), 30.0, (width, height), True)
+  vw = cv2.VideoWriter(out_path, cv2.VideoWriter_fourcc(*"avc1"), 30.0, (width, height), True)
   for i in range(len(result_list)):
     frame,res = result_list[i]
     if len(res) > 0:
