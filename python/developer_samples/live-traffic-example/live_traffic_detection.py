@@ -26,7 +26,7 @@ import numpy as np
 import io
 from openvino.inference_engine import IENetwork, IECore
 from pathlib import Path
-from qarpo import progressUpdate
+from qarpo.demoutils import progressUpdate
 
 def build_argparser():
   parser = ArgumentParser()
@@ -159,7 +159,6 @@ def main():
   next_request_id = 1
   
   job_id = os.environ['PBS_JOBID']
-  #job_id = "12345"
   inf_progress_file_path = os.path.join(args.output_dir,'i_progress_'+str(job_id)+'.txt')
   ren_progress_file_path = os.path.join(args.output_dir,'v_progress_'+str(job_id)+'.txt')
 
@@ -229,11 +228,11 @@ def main():
       cv2.destroyAllWindows()
     else:
       total_time = time.time() - infer_time_start
-      with open(os.path.join(args.output_dir, 'stats_'+str(job_id)+'.txt'), 'w') as f:
+      with open(os.path.join(args.output_dir, 'stats.txt'), 'w') as f:
         f.write(str(round(total_time, 1))+'\n')
         f.write(str(frame_count)+'\n')
 
-    o_video = os.path.join(args.output_dir, 'output_'+str(job_id)+'.mp4')
+    o_video = os.path.join(args.output_dir, 'output.mp4')
     post_process_t = time.time()
     postProcess(result_list, int(initial_w), int(initial_h), labels_map, o_video, is_async_mode, ren_progress_file_path)
     log.info("Post processing time: {0} sec" .format(time.time()-post_process_t))
