@@ -114,12 +114,11 @@ def main():
     # Use strip in case of " or ' present which might be used to avoid shell globing in scripts
     files=glob.glob(args.input[0].strip("\"'")) 
     
-    
     if not os.path.isdir(args.output_dir):
         os.makedirs(args.output_dir, exist_ok=True)
     f=open(os.path.join(args.output_dir, 'result.txt'), 'w')
     f1=open(os.path.join(args.output_dir, 'stats.txt'), 'w') 
-    progress_file_path = os.path.join(args.output_dir, "progress"+job_id+".txt")
+    progress_file_path = os.path.join(args.output_dir, "i_progress_"+job_id+".txt")
     print(progress_file_path)
     time_images=[]
     tstart=time.time()
