@@ -10,10 +10,15 @@ from qarpo.demoutils import progressUpdate
 
 job_id = os.environ['PBS_JOBID']
 
+progress_file='./results/' + str(job_id) + '.txt'
+start_time = time()
+
 image = crop_rgb(cv2.imread(str('./data/frame.png')))
 
 mean_values = [0.485, 0.456, 0.406]
 scale_values = [0.229, 0.224, 0.225]
+
+progressUpdate(progress_file, time()-start_time, 1, 3)
 
 transform = transforms.Compose([
     transforms.ToTensor(),
@@ -22,6 +27,7 @@ transform = transforms.Compose([
 img_t = transform(image)
 batch_t = torch.unsqueeze(img_t, 0)
 
+progressUpdate(progress_file, time()-start_time, 2, 3)
 
 model_path = "/data/robotic-instrument-segmentation/unet11_binary_20/model_0.pt"
 model = get_model(model_path, model_type='UNet11', problem_type='binary')
@@ -35,4 +41,4 @@ print("PyTorch took {:,} msec for inference".format(1000.0*(time() - start_time)
 cv2.imwrite("generated/input.png", image)
 utils.save_image(res_pytorch, "generated/mask.png")
 
-progressUpdate('./results/' + str(job_id) + '.txt', time()-start_time, 1, 1)
+progressUpdate('./results/' + str(job_id) + '.txt', time()-start_time, 3, 3)
