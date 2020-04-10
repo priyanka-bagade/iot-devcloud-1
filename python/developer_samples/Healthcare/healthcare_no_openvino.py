@@ -44,7 +44,7 @@ print ("We are using Tensorflow version", tf.__version__,\
 # Create output directory for images
 job_id = os.environ['PBS_JOBID']
 #png_directory = os.path.join(args.results_directory, job_id)
-png_directory = args.results_directory)
+png_directory = args.results_directory
 if not os.path.exists(png_directory):
     os.makedirs(png_directory)
     

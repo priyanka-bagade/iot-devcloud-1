@@ -1,4 +1,4 @@
-name: mkltf
+name: dnnltf
 channels:
   - conda-forge
   - anaconda
