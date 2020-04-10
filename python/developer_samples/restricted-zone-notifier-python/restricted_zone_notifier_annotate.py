@@ -41,7 +41,8 @@ def post_process(input_stream, input_data, out_path, progress_data, scale_frame_
         height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         out_w = int(scale_resolution*width)
         out_h = int(scale_resolution*height)
-        vw = cv2.VideoWriter(out_path, 0x00000021, 50.0 / scale_frame_rate, (out_w, out_h), True)
+        vw = cv2.VideoWriter(out_path, cv2.VideoWriter_fourcc(*'avc1'), 50.0 / scale_frame_rate, (out_w, out_h), True)
+        #vw = cv2.VideoWriter(out_path, 0x00000021, 50.0 / scale_frame_rate, (out_w, out_h), True)
         #vw = cv2.VideoWriter(out_path, cv2.VideoWriter_fourcc(*'avc1'), 50.0 / scale_frame_rate, (int(scale_resolution*width), int(scale_resolution*height)), True)
         video_len = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     else:
