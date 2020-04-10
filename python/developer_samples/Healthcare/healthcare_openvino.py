@@ -230,7 +230,8 @@ def plotDiceScore(img_no,img,msk,pred_mask,plot_result, time):
 
 # Create output directory for images
 job_id = os.environ['PBS_JOBID']
-png_directory = os.path.join(args.results_directory, job_id)
+#png_directory = os.path.join(args.results_directory, job_id)
+png_directory = args.results_directory
 if not os.path.exists(png_directory):
     os.makedirs(png_directory)
  
@@ -298,7 +299,8 @@ indicies_validation = [40, 63, 43, 55, 99, 101, 19, 46] #[40]
 val_id = 1
 infer_time = 0
 process_time_start = time.time()
-progress_file_path = os.path.join(png_directory, "i_progress.txt")
+#progress_file_path = os.path.join(png_directory, "i_progress.txt")
+progress_file_path = os.path.join(png_directory,'i_progress_'+str(job_id)+'.txt')
 for idx in indicies_validation:
 
     input_data_transposed=input_data[idx:(idx+batch_size)].transpose(0,3,1,2)

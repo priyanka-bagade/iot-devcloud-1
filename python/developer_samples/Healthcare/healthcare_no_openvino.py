@@ -43,7 +43,8 @@ print ("We are using Tensorflow version", tf.__version__,\
 
 # Create output directory for images
 job_id = os.environ['PBS_JOBID']
-png_directory = os.path.join(args.results_directory, job_id)
+#png_directory = os.path.join(args.results_directory, job_id)
+png_directory = args.results_directory)
 if not os.path.exists(png_directory):
     os.makedirs(png_directory)
     
@@ -173,7 +174,8 @@ def predict(img_no, plot_result):
 indicies_validation = [40, 63, 43, 55, 99, 101, 19, 46] #[40]
 val_id = 1
 infer_time_start = time.time()
-progress_file_path = os.path.join(png_directory, "i_progress.txt")
+#progress_file_path = os.path.join(png_directory, "i_progress.txt")
+progress_file_path = os.path.join(png_directory,'i_progress_'+str(job_id)+'.txt')
 infer_time = 0
 for idx in indicies_validation:
     infer_time_idx = predict(idx, plot_result=True)
