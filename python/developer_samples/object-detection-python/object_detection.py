@@ -1,6 +1,4 @@
-
-
-
+#!/usr/bin/env python
 """
  Copyright (c) 2019 Intel Corporation
 
@@ -15,21 +13,20 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-# /usr/bin/env python
 """
+
 from __future__ import print_function
 import sys
 import os
 from argparse import ArgumentParser
+import cv2
 import time
 import logging as log
 import numpy as np
 import io
 from openvino.inference_engine import IENetwork, IECore
-from qarpo.demoutils import *
-import cv2
 
-
+from qarpo.demoutils import progressUpdate
 
 def build_argparser():
     parser = ArgumentParser()
@@ -75,13 +72,17 @@ def build_argparser():
                         type=str)
     return parser
 
+
 def processBoxes(frame_count, res, labels_map, prob_threshold, initial_w, initial_h, result_file):
     for obj in res[0][0]:
         dims = ""
-       # Draw only objects when probability more than specified threshold
+        # Draw only objects when probability more than specified threshold
         if obj[2] > prob_threshold:
-           dims = "{frame_id} {xmin} {ymin} {xmax} {ymax} {class_id} {est} {time} \n".format(frame_id=frame_count, xmin=int(obj[3] * initial_w), ymin=int(obj[4] * initial_h), xmax=int(obj[5] * initial_w), ymax=int(obj[6] * initial_h), class_id=int(obj[1]), est=round(obj[2]*100, 1), time='N/A')
-           result_file.write(dims)
+            class_id = int(obj[1])
+            det_label = labels_map[class_id-1] if labels_map else "class="+str(class_id)
+            dims = "{frame_id} {xmin} {ymin} {xmax} {ymax} {class_id} {det_label} {est} {time} \n".format(frame_id=frame_count, xmin=int(obj[3] * initial_w), ymin=int(obj[4] * initial_h), xmax=int(obj[5] * initial_w), ymax=int(obj[6] * initial_h), class_id=class_id, det_label=det_label, est=round(obj[2]*100, 1), time='N/A')
+            result_file.write(dims)
+
 
 def main():
     log.basicConfig(format="[ %(levelname)s ] %(message)s", level=log.INFO, stream=sys.stdout)
@@ -117,23 +118,20 @@ def main():
 
     if args.input == 'cam':
         input_stream = 0
-        out_file_name = 'cam'
     else:
         input_stream = args.input
         assert os.path.isfile(args.input), "Specified input file doesn't exist"
-        out_file_name = os.path.splitext(os.path.basename(args.input))[0]
 
     log.info("Loading IR to the plugin...")
     exec_net = ie.load_network(network=net, num_requests=args.number_infer_requests, device_name=args.device)
  
 
-    log.info("Starting inference in async mode, {} requests in parallel...".format(args.number_infer_requests))
+    log.info("Starting preprocessing...")
     job_id = str(os.environ['PBS_JOBID'])
-    result_file = open(os.path.join(args.output_dir, 'output_'+job_id+'.txt'), "w")
+    result_file = open(os.path.join(args.output_dir, 'output.txt'), "w")
     pre_infer_file = os.path.join(args.output_dir, 'pre_progress_'+job_id+'.txt')
     infer_file = os.path.join(args.output_dir, 'i_progress_'+job_id+'.txt')
     processed_vid = '/tmp/processed_vid.bin'
-
 
     # Read and pre-process input image
     if isinstance(net.inputs[input_blob], list):
@@ -173,7 +171,8 @@ def main():
             labels_map = [x.strip() for x in f]
     else:
         labels_map = None
-    
+
+    log.info("Starting inference in async mode, {} requests in parallel...".format(args.number_infer_requests))
     current_inference = 0
     previous_inference = 1 - args.number_infer_requests
     infer_requests = exec_net.requests
@@ -215,7 +214,7 @@ def main():
 
         # End while loop
         total_time = time.time() - infer_time_start
-        with open(os.path.join(args.output_dir, 'stats_{}.txt'.format(job_id)), 'w') as f:
+        with open(os.path.join(args.output_dir, 'stats.txt'), 'w') as f:
                 f.write('{:.3g} \n'.format(total_time))
                 f.write('{} \n'.format(frame_count))
 
@@ -224,8 +223,7 @@ def main():
     finally:
         log.info("Processing done...")
         del exec_net
-
+        del ie
 
 if __name__ == '__main__':
     sys.exit(main() or 0)
-
