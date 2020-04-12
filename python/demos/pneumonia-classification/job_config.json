@@ -21,12 +21,12 @@
 				"xlabel" : "Architectures",
 				"selector" : ["Target node", "Target architecture"]
 			},
-				{
-					"title" : "Frames per second",
-					"type" : "fps",
-					"ylabel" : "Number of frames per second",
-					"xlabel" : "Architectures"
-				}
+			{
+				"title" : "Frames per second",
+				"type" : "fps",
+				"ylabel" : "Number of frames per second",
+				"xlabel" : "Architectures"
+			}
 		]
 	},
 	"inputs":
@@ -35,7 +35,7 @@
 			"Target_node":
 			{
 				"display_name": "Target node",
-				"type": "select", 
+				"type": "select",
 				"default" : "tank-870",
 				"defines" : ["NODE"],
 				"options": [
@@ -44,22 +44,11 @@
 					"dummy": "True",
 					"controls":
 					{
-						"Target_arch":["Intel Arria10 FPGA", "Intel NCS2", "MX8 VPU Acceleration Card", "Intel HD Graphics 505", "Intel HD Graphics 530", "Intel HD Graphics 620", "Intel HD Graphics 630", "Intel Core i7-8665UE CPU", "Intel Core i5-7500T CPU", "Intel Core i5-6500TE CPU", "Intel Xeon CPU"]
+						"Target_arch":["Intel NCS2", "MX8 VPU Acceleration Card", "Intel HD Graphics 505", "Intel HD Graphics 530", "Intel HD Graphics 620", "Intel HD Graphics 630", "Intel Core i7-8665UE CPU", "Intel Core i5-7500T CPU", "Intel Core i5-6500TE CPU", "Intel Xeon CPU"]
 					}
 				},
 				{
-					"name": "6th Gen Intel Core/Intel FPGA",
-					"defines" :
-					{
-						"NODE" : "idc003a10"
-					},
-					"controls":
-					{
-						"Target_arch":["Intel Arria10 FPGA"]
-					}
-				},
-				{
-					"name": "6th Gen Intel Core/MX8 VPU",
+					"name": "6th Gen Intel Core CPU/MX8 VPU",
 					"defines" :
 					{
 						"NODE" : "idc002mx8"
@@ -70,7 +59,7 @@
 					}
 				},
 				{
-					"name": "6th Gen Intel Core/Intel NCS2",
+					"name": "6th Gen Intel Core CPU/Intel NCS2",
 					"defines" :
 					{
 						"NODE" : "idc004nc2"
@@ -81,7 +70,7 @@
 					}
 				},
 				{
-					"name": "6th Gen Intel Core",
+					"name": "6th Gen Intel Core CPU",
 					"defines" :
 					{
 						"NODE" : "idc001skl"
@@ -92,7 +81,7 @@
 					}
 				},
 				{
-					"name": "7th Gen Intel Core",
+					"name": "7th Gen Intel Core CPU",
 					"defines" :
 					{
 						"NODE" : "idc006kbl"
@@ -103,18 +92,18 @@
 					}
 				},
 				{
-					"name": "8th Gen Intel Core",
+					"name": "8th Gen Intel Core CPU",
 					"defines" :
 					{
 						"NODE" : "idc014upxa10fx1"
 					},
 					"controls":
 					{
-						"Target_arch":["Intel Core i7-8665UE CPU", "Intel HD Graphics 620"]
+						"Target_arch":["Intel Core i7-8665UE CPU", "Intel UHD Graphics 620"]
 					}
 				},
 				{
-					"name": "6th Gen Intel Xeon",
+					"name": "6th Gen Intel Xeon CPU",
 					"defines" :
 					{
 						"NODE" : "idc007xv5"
@@ -125,7 +114,7 @@
 					}
 				},
 				{
-					"name": "Intel Atom",
+					"name": "Intel Atom CPU",
 					"defines" :
 					{
 						"NODE" : "idc008u2g"
@@ -151,15 +140,6 @@
 						"dummy": "True"
 					},
 					{
-						"name": "Intel Arria10 FPGA",
-						"defines":
-						{
-							"ARCH": "iei-mustang-f100-a10",
-							"TARGET": "HETERO:FPGA,CPU",
-							"FP_MODEL": "FP16"
-						}
-					},
-					{
 						"name": "Intel NCS2",
 						"defines" :
 						{
@@ -183,7 +163,7 @@
 						{
 							"ARCH":  "intel-hd-505",
 							"TARGET": "GPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -192,7 +172,7 @@
 						{
 							"ARCH": "intel-hd-530",
 							"TARGET": "GPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -201,7 +181,16 @@
 						{
 							"ARCH": "intel-hd-620",
 							"TARGET": "GPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
+						}
+					},
+					{
+						"name": "Intel UHD Graphics 620",
+						"defines":
+						{
+							"ARCH": "intel-uhd-620",
+							"TARGET": "GPU",
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -210,7 +199,7 @@
 						{
 							"ARCH": "intel-hd-630",
 							"TARGET": "GPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -219,7 +208,7 @@
 						{
 							"ARCH": "intel-hd-p530",
 							"TARGET": "GPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -244,7 +233,7 @@
 						"name":"Intel Core i7-8665UE CPU",
 						"defines":
 						{
-							"ARCH": "intel-core",
+							"ARCH": "i7-8665ue",
 							"TARGET": "CPU",
 							"FP_MODEL": "FP32"
 						}
