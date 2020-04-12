@@ -132,7 +132,7 @@
 						{
 							"ARCH": "intel-hd-530",
 							"TARGET": "GPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -141,7 +141,7 @@
 						{
 							"ARCH": "intel-hd-620",
 							"TARGET": "GPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -150,7 +150,7 @@
 						{
 							"ARCH": "intel-uhd-620",
 							"TARGET": "GPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -159,7 +159,7 @@
 						{
 							"ARCH": "intel-hd-630",
 							"TARGET": "GPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -168,7 +168,7 @@
 						{
 							"ARCH": "intel-hd-p530",
 							"TARGET": "GPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -177,7 +177,7 @@
 						{
 							"ARCH": "i5-6500te",
 							"TARGET": "CPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -186,7 +186,7 @@
 						{
 							"ARCH": "i5-7500t",
 							"TARGET": "CPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -195,7 +195,7 @@
 						{
 							"ARCH": "i7-8665ue",
 							"TARGET": "CPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					},
 					{
@@ -204,7 +204,7 @@
 						{
 							"ARCH": "e3-1268l-v5",
 							"TARGET": "CPU",
-							"FP_MODEL": "FP32"
+							"FP_MODEL": "FP16"
 						}
 					}
 				]
