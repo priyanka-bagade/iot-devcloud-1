@@ -161,10 +161,10 @@
 						}
 					},
 					{
-						"name": "Intel Optimized Tensorflow (mkltf) Env",
+						"name": "Intel Optimized Tensorflow (dnnltf) Env",
 						"defines":
 						{
-							"JOB_ENV_SCRIPT": "healthcare_job_mkltf.sh"
+							"JOB_ENV_SCRIPT": "healthcare_job_dnnltf.sh"
 						}
 					}
 				]
