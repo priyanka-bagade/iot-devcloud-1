@@ -1,7 +1,7 @@
 {
 	"job":
 	{
-		"command": "qsub traffic_detection_job.sh -l nodes=NODE:ARCH -F \"RESULTS TARGET FP_MODEL rtmp://wzmedia.dot.ca.gov/D4/S880_at_JCT_84.stream\"",
+		"command": "qsub traffic_detection_job.sh -l nodes=NODE:ARCH -F \"RESULTS TARGET FP_MODEL rtmp://wzmedia.dot.ca.gov/D4/S880_JNO_JCT_238.stream\"",
 		"output_type": ".mp4",
 		"results_path": "results/",
 		"results_defines" : "RESULTS",
