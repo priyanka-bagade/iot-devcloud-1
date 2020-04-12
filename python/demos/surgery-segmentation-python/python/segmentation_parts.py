@@ -10,6 +10,7 @@ import logging as log
 from time import time
 from openvino.inference_engine import IENetwork, IECore
 from qarpo.demoutils import progressUpdate
+import json
 
 def main():
     # Construct the argument parser and parse the arguments
@@ -31,6 +32,8 @@ def main():
     output = args['output']
 
     job_id = os.environ['PBS_JOBID']
+    job_id = job_id.rstrip().split('.')[0]
+    progress_file = os.path.join(output,job_id, 'i_progress.txt')
     
     # Set up logging
     log.basicConfig(format="[ %(levelname)s ] %(message)s", level=log.INFO, stream=sys.stdout)
@@ -57,7 +60,7 @@ def main():
 
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*"avc1")
-    out = cv2.VideoWriter(output + 'output.mp4', fourcc, 6.0, (1280, 1024), True)
+    out = cv2.VideoWriter(os.path.join(output, job_id, 'output.mp4'), fourcc, 6.0, (1280, 1024), True)
 
     infer_time_start = time()
    
@@ -93,7 +96,7 @@ def main():
         # Write out frame to video 
         out.write(cv2.addWeighted(image, 1, mask_frame, 0.5, 0))
 
-        progressUpdate(output+'i_progress_' + str(job_id) + '.txt', time()-infer_time_start, number+1, total_frames)  
+        progressUpdate(progress_file, time()-infer_time_start, number+1, total_frames)  
 
     # Release everything at end of job
     out.release()
@@ -101,9 +104,13 @@ def main():
     
     # Write time information to the log file
     total_time = time() - infer_time_start
-    with open(os.path.join(output, 'stats.txt'), 'w') as f:
-        f.write(str(round(total_time, 1))+'\n')
-        f.write(str(total_frames)+'\n')
+    
+    stats = {}
+    stats['time'] = str(total_time) # Total Time
+    stats['frames'] = str(total_frames)
+    stats['fps'] = str(round(total_frames / total_time,2))
+    with open(os.path.join(output, job_id, 'stats.json'), 'w') as json_file:
+        json.dump(stats, json_file)
 
     log.info("The output video is {}".format(output + 'output.mp4'))
 
