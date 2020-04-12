@@ -24,5 +24,5 @@ fi
 # Running the object detection code
 SAMPLEPATH=$PBS_O_WORKDIR
 python3 healthcare_openvino.py     -d $DEVICE \
-                                   -IR output/IR_models/${FP_MODEL}/saved_model \
+                                   -IR models/${FP_MODEL}/saved_model \
                                    -r $RESULTS
