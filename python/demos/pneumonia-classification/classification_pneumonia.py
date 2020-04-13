@@ -30,9 +30,11 @@ def float16_conversion_array(n_array):
 def class_activation_map_openvino(res, convb, fc, net, fp16):
     res_bn = res[convb]
     conv_outputs=res_bn[0,:,:,:]
-    weights_fc=net.layers.get(fc).weights["weights"]
+    # retrieve layer weights
+    weights_fc=net.layers.get(fc).blobs["weights"]
+    # initialize CAM array
     cam = np.zeros(dtype=np.float32, shape=conv_outputs.shape[1:])
-
+    # perform weighted sum
     for i, w in enumerate(weights_fc):
         conv_outputs1=conv_outputs[i, :, :]
         if fp16:
@@ -91,7 +93,13 @@ def main():
     print(bn)
     # add the last convolutional layer as output
     net.add_outputs(bn)
-    fc="predictions_1/MatMul"
+    """
+    Note: Layer name should be "MatMul", however it appears as "BiasAdd/Add" in
+          the IR from Model Optimizer in OpenVINO 2020.1.  
+          Below contains a workaround until corrected in the next release.
+    """
+    #fc="predictions_1/MatMul"
+    fc="predictions_1/BiasAdd/Add"
 
     # name of the inputs and outputs
     input_blob = next(iter(net.inputs))
