@@ -11,7 +11,10 @@ import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 from distutils.sysconfig import get_python_lib
-from qarpo import progressUpdate
+# create soft-link as workaround if qarpo module not installed in environment
+if not os.path.exists('qarpo'):
+    os.symlink('../../../demoTools','qarpo')
+from qarpo.demoutils import progressUpdate
 import json
 
 packages_directory=get_python_lib()

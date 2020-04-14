@@ -1,5 +1,7 @@
 cd $PBS_O_WORKDIR
 
+# create soft-link as workaround if qarpo module not installed in environment
+ln -s ../../../demoTools ./qarpo
 
 # Running the code inside stocktf conda env
 SAMPLEPATH=$PBS_O_WORKDIR
